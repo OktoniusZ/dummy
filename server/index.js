@@ -7,21 +7,23 @@ const mongoose = require('mongoose')
 const session = require('express-session');
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy;
+require('dotenv').config()
 var flash = require('connect-flash');
+const http = require('http')
 
 // routes
-const relawan = require('./routes/relawan')
-const informasi = require('./routes/informasiPohon');
-const register = require('./routes/register')
-const support = require('./routes/support')
+const relawan = require('./src/routes/relawan')
+const informasi = require('./src/routes/informasiPohon');
+const register = require('./src/routes/register')
+const support = require('./src/routes/support')
 
 // controller
-const dashboard = require('./controller/dashboard.controller')
-const editDashboard = require('./controller/edit.controller')
-const supportPage = require('./controller/support.controller')
-const location = require('./controller/location.controller')
-const informationPage = require('./controller/information.controller')
-const login = require('./controller/login.controller')
+const dashboard = require('./src/controller/dashboard.controller')
+const editDashboard = require('./src/controller/edit.controller')
+const supportPage = require('./src/controller/support.controller')
+const location = require('./src/controller/location.controller')
+const informationPage = require('./src/controller/information.controller')
+const login = require('./src/controller/login.controller')
 
 
 // middleware
@@ -103,13 +105,16 @@ app.get('/logout', (req,res) => {
     res.redirect('/login')
 })
 
+const port = process.env.PORT || 5000;
+const host = process.env.HOST || '0.0.0.0'
+const server = http.createServer(app);
 // database connection
 mongoose.set('strictQuery', false)
-mongoose.connect('mongodb+srv://lingkarHijau:dYNb9oXtCk1kIhy4@cluster0.xrsxrmk.mongodb.net/relawan?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://f039xb384:lingkarhijau123@lingkar-hijau.pxwcbij.mongodb.net/lingkarhijau?retryWrites=true&w=majority ')
 .then(() => {
     console.log('Connected to mongodb')
     app.listen('3000', () => {
-        console.log(`Linkar Hijau Berjalan pada port 3000`)
+        console.log(`Linkar Hijau Berjalan pada ${host}:${port}`)
     })
 })
 .catch((err) => {
